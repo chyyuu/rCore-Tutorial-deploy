@@ -1,0 +1,1505 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>实现内核重映射 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-chapter-fold/chapter-fold.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-katex/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-alerts/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-emphasize/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-codeblock-label/block.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-click-reveal/click_reveal.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-expandable-chapters-interactive/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="summary.html" />
+    
+    
+    <link rel="prev" href="part-3.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    实验简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">实验之前</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../../pre-lab/env.html">
+            
+                <a href="../../pre-lab/env.html">
+            
+                    
+                    环境部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../../pre-lab/gdb.html">
+            
+                <a href="../../pre-lab/gdb.html">
+            
+                    
+                    GDB 调试方法*
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">实验指导</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" >
+            
+                <span>
+            
+                    
+                    实验指导零
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../../lab-0/guide/intro.html">
+            
+                <a href="../../lab-0/guide/intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../../lab-0/guide/part-1.html">
+            
+                <a href="../../lab-0/guide/part-1.html">
+            
+                    
+                    创建项目
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="../../lab-0/guide/part-2.html">
+            
+                <a href="../../lab-0/guide/part-2.html">
+            
+                    
+                    移除标准库依赖
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="../../lab-0/guide/part-3.html">
+            
+                <a href="../../lab-0/guide/part-3.html">
+            
+                    
+                    移除运行时环境依赖
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="../../lab-0/guide/part-4.html">
+            
+                <a href="../../lab-0/guide/part-4.html">
+            
+                    
+                    编译为裸机目标
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="../../lab-0/guide/part-5.html">
+            
+                <a href="../../lab-0/guide/part-5.html">
+            
+                    
+                    生成内核镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="../../lab-0/guide/part-6.html">
+            
+                <a href="../../lab-0/guide/part-6.html">
+            
+                    
+                    调整内存布局
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="../../lab-0/guide/part-7.html">
+            
+                <a href="../../lab-0/guide/part-7.html">
+            
+                    
+                    重写程序入口点
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="../../lab-0/guide/part-8.html">
+            
+                <a href="../../lab-0/guide/part-8.html">
+            
+                    
+                    使用 QEMU 运行
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.10" data-path="../../lab-0/guide/part-9.html">
+            
+                <a href="../../lab-0/guide/part-9.html">
+            
+                    
+                    接口封装和代码整理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.11" data-path="../../lab-0/guide/summary.html">
+            
+                <a href="../../lab-0/guide/summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" >
+            
+                <span>
+            
+                    
+                    实验指导一
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="../../lab-1/guide/intro.html">
+            
+                <a href="../../lab-1/guide/intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="../../lab-1/guide/part-1.html">
+            
+                <a href="../../lab-1/guide/part-1.html">
+            
+                    
+                    什么是中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="../../lab-1/guide/part-2.html">
+            
+                <a href="../../lab-1/guide/part-2.html">
+            
+                    
+                    RISC-V 中的中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.4" data-path="../../lab-1/guide/part-3.html">
+            
+                <a href="../../lab-1/guide/part-3.html">
+            
+                    
+                    程序运行状态
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.5" data-path="../../lab-1/guide/part-4.html">
+            
+                <a href="../../lab-1/guide/part-4.html">
+            
+                    
+                    状态的保存与恢复
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.6" data-path="../../lab-1/guide/part-5.html">
+            
+                <a href="../../lab-1/guide/part-5.html">
+            
+                    
+                    进入中断处理流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.7" data-path="../../lab-1/guide/part-6.html">
+            
+                <a href="../../lab-1/guide/part-6.html">
+            
+                    
+                    时钟中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.8" data-path="../../lab-1/guide/summary.html">
+            
+                <a href="../../lab-1/guide/summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" >
+            
+                <span>
+            
+                    
+                    实验指导二
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="../../lab-2/guide/intro.html">
+            
+                <a href="../../lab-2/guide/intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.2" data-path="../../lab-2/guide/part-1.html">
+            
+                <a href="../../lab-2/guide/part-1.html">
+            
+                    
+                    动态内存分配
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.3" data-path="../../lab-2/guide/part-2.html">
+            
+                <a href="../../lab-2/guide/part-2.html">
+            
+                    
+                    物理内存探测
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.4" data-path="../../lab-2/guide/part-3.html">
+            
+                <a href="../../lab-2/guide/part-3.html">
+            
+                    
+                    物理内存管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.5" data-path="../../lab-2/guide/summary.html">
+            
+                <a href="../../lab-2/guide/summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" >
+            
+                <span>
+            
+                    
+                    实验指导三
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.4.1" data-path="intro.html">
+            
+                <a href="intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.2" data-path="part-1.html">
+            
+                <a href="part-1.html">
+            
+                    
+                    从虚拟地址到物理地址
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.3" data-path="part-2.html">
+            
+                <a href="part-2.html">
+            
+                    
+                    修改内核
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.4" data-path="part-3.html">
+            
+                <a href="part-3.html">
+            
+                    
+                    实现页表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.4.5" data-path="part-4.html">
+            
+                <a href="part-4.html">
+            
+                    
+                    实现内核重映射
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.6" data-path="summary.html">
+            
+                <a href="summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" >
+            
+                <span>
+            
+                    
+                    实验指导四
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.5.1" data-path="../../lab-4/guide/intro.html">
+            
+                <a href="../../lab-4/guide/intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5.2" data-path="../../lab-4/guide/part-1.html">
+            
+                <a href="../../lab-4/guide/part-1.html">
+            
+                    
+                    线程和进程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5.3" data-path="../../lab-4/guide/part-2.html">
+            
+                <a href="../../lab-4/guide/part-2.html">
+            
+                    
+                    线程的创建
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5.4" data-path="../../lab-4/guide/part-3.html">
+            
+                <a href="../../lab-4/guide/part-3.html">
+            
+                    
+                    线程的切换
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5.5" data-path="../../lab-4/guide/part-4.html">
+            
+                <a href="../../lab-4/guide/part-4.html">
+            
+                    
+                    内核栈
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5.6" data-path="../../lab-4/guide/part-5.html">
+            
+                <a href="../../lab-4/guide/part-5.html">
+            
+                    
+                    线程调度
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5.7" data-path="../../lab-4/guide/summary.html">
+            
+                <a href="../../lab-4/guide/summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" >
+            
+                <span>
+            
+                    
+                    实验指导五
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.6.1" data-path="../../lab-5/guide/intro.html">
+            
+                <a href="../../lab-5/guide/intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6.2" data-path="../../lab-5/guide/part-1.html">
+            
+                <a href="../../lab-5/guide/part-1.html">
+            
+                    
+                    设备树
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6.3" data-path="../../lab-5/guide/part-2.html">
+            
+                <a href="../../lab-5/guide/part-2.html">
+            
+                    
+                    virtio
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6.4" data-path="../../lab-5/guide/part-3.html">
+            
+                <a href="../../lab-5/guide/part-3.html">
+            
+                    
+                    驱动和块设备驱动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6.5" data-path="../../lab-5/guide/part-4.html">
+            
+                <a href="../../lab-5/guide/part-4.html">
+            
+                    
+                    文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6.6" data-path="../../lab-5/guide/summary.html">
+            
+                <a href="../../lab-5/guide/summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" >
+            
+                <span>
+            
+                    
+                    实验指导六
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.7.1" data-path="../../lab-6/guide/intro.html">
+            
+                <a href="../../lab-6/guide/intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.2" data-path="../../lab-6/guide/part-1.html">
+            
+                <a href="../../lab-6/guide/part-1.html">
+            
+                    
+                    构建用户程序框架
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.3" data-path="../../lab-6/guide/part-2.html">
+            
+                <a href="../../lab-6/guide/part-2.html">
+            
+                    
+                    打包为磁盘镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.4" data-path="../../lab-6/guide/part-3.html">
+            
+                <a href="../../lab-6/guide/part-3.html">
+            
+                    
+                    解析 ELF 文件并创建线程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.5" data-path="../../lab-6/guide/part-4.html">
+            
+                <a href="../../lab-6/guide/part-4.html">
+            
+                    
+                    实现系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.6" data-path="../../lab-6/guide/part-5.html">
+            
+                <a href="../../lab-6/guide/part-5.html">
+            
+                    
+                    处理文件描述符
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.7" data-path="../../lab-6/guide/part-6.html">
+            
+                <a href="../../lab-6/guide/part-6.html">
+            
+                    
+                    条件变量
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.8" data-path="../../lab-6/guide/summary.html">
+            
+                <a href="../../lab-6/guide/summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">实验题</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../../lab-1/practice.html">
+            
+                <a href="../../lab-1/practice.html">
+            
+                    
+                    实验一：中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../../lab-2/practice.html">
+            
+                <a href="../../lab-2/practice.html">
+            
+                    
+                    实验二：内存分配
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >实现内核重映射</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="&#x5B9E;&#x73B0;&#x5185;&#x6838;&#x91CD;&#x6620;&#x5C04;">&#x5B9E;&#x73B0;&#x5185;&#x6838;&#x91CD;&#x6620;&#x5C04;</h2>
+<p>&#x5728;&#x4E0A;&#x6587;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x867D;&#x7136;&#x6784;&#x9020;&#x4E86;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x6620;&#x5C04;&#x4F7F;&#x5F97;&#x5185;&#x6838;&#x80FD;&#x591F;&#x8FD0;&#x884C;&#x5728;&#x865A;&#x62DF;&#x7A7A;&#x95F4;&#x4E0A;&#xFF0C;&#x4F46;&#x662F;&#x8FD9;&#x4E2A;&#x6620;&#x5C04;&#x662F;&#x6BD4;&#x8F83;&#x7C97;&#x7CD9;&#x7684;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x77E5;&#x9053;&#x4E00;&#x4E2A;&#x7A0B;&#x5E8F;&#x901A;&#x5E38;&#x542B;&#x6709;&#x4E0B;&#x9762;&#x51E0;&#x6BB5;&#xFF1A;</p>
+<ul>
+<li>.text &#x6BB5;&#xFF1A;&#x5B58;&#x653E;&#x4EE3;&#x7801;&#xFF0C;&#x9700;&#x8981;&#x53EF;&#x8BFB;&#x3001;&#x53EF;&#x6267;&#x884C;&#x7684;&#xFF0C;&#x4F46;&#x4E0D;&#x53EF;&#x5199;&#xFF1B;</li>
+<li>.rodata &#x6BB5;&#xFF1A;&#x5B58;&#x653E;&#x53EA;&#x8BFB;&#x6570;&#x636E;&#xFF0C;&#x987E;&#x540D;&#x601D;&#x4E49;&#xFF0C;&#x9700;&#x8981;&#x53EF;&#x8BFB;&#xFF0C;&#x4F46;&#x4E0D;&#x53EF;&#x5199;&#x4EA6;&#x4E0D;&#x53EF;&#x6267;&#x884C;&#xFF1B;</li>
+<li>.data &#x6BB5;&#xFF1A;&#x5B58;&#x653E;&#x7ECF;&#x8FC7;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x9700;&#x8981;&#x53EF;&#x8BFB;&#x3001;&#x53EF;&#x5199;&#xFF1B;</li>
+<li>.bss &#x6BB5;&#xFF1A;&#x5B58;&#x653E;&#x96F6;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x9700;&#x8981;&#x53EF;&#x8BFB;&#x3001;&#x53EF;&#x5199;&#x3002;</li>
+</ul>
+<p>&#x6211;&#x4EEC;&#x770B;&#x5230;&#x5404;&#x4E2A;&#x6BB5;&#x4E4B;&#x95F4;&#x7684;&#x8BBF;&#x95EE;&#x6743;&#x9650;&#x662F;&#x4E0D;&#x540C;&#x7684;&#x3002;&#x5728;&#x73B0;&#x5728;&#x7684;&#x6620;&#x5C04;&#x4E0B;&#xFF0C;&#x6211;&#x4EEC;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x5185;&#x6838; .text &#x6BB5;&#x7684;&#x4EE3;&#x7801;&#x3002;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x6807;&#x5FD7;&#x4F4D; <code>W</code> &#x4E3A; 1 &#x7684;&#x9875;&#x8868;&#x9879;&#x5B8C;&#x6210;&#x6620;&#x5C04;&#x3002;</p>
+<p>&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x4EEC;&#x8003;&#x8651;&#x5BF9;&#x8FD9;&#x4E9B;&#x6BB5;&#x5206;&#x522B;&#x8FDB;&#x884C;&#x91CD;&#x6620;&#x5C04;&#xFF0C;&#x4F7F;&#x5F97;&#x4ED6;&#x4EEC;&#x7684;&#x8BBF;&#x95EE;&#x6743;&#x9650;&#x88AB;&#x6B63;&#x786E;&#x8BBE;&#x7F6E;&#x3002;</p>
+<p>&#x8FD9;&#x4E2A;&#x9700;&#x6C42;&#x53EF;&#x4EE5;&#x62BD;&#x8C61;&#x4E3A;&#x4E00;&#x6BB5;&#x5185;&#x5B58;&#xFF08;&#x53EF;&#x80FD;&#x662F;&#x5F88;&#x591A;&#x4E2A;&#x865A;&#x62DF;&#x9875;&#xFF09;&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x65B9;&#x5F0F;&#x6620;&#x5C04;&#x5230;&#x5F88;&#x591A;&#x4E2A;&#x7269;&#x7406;&#x9875;&#x4E0A;&#xFF0C;&#x540C;&#x65F6;&#x8FD9;&#x4E2A;&#x5185;&#x5B58;&#x6BB5;&#x5C06;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;&#x7EDF;&#x4E00;&#x7684;&#x5C5E;&#x6027;&#x548C;&#x8FDB;&#x4E00;&#x6B65;&#x9AD8;&#x5C42;&#x6B21;&#x7684;&#x7BA1;&#x7406;&#x3002;</p>
+<p>&#x4E3E;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x5728;&#x5185;&#x6838;&#x7684;&#x4EE3;&#x7801;&#x6BB5;&#x4E2D; .bss &#x6BB5;&#x53EF;&#x80FD;&#x4E0D;&#x6B62;&#x4F1A;&#x5360;&#x7528;&#x4E00;&#x4E2A;&#x9875;&#x9762;&#xFF0C;&#x800C;&#x662F;&#x5F88;&#x591A;&#x9875;&#x9762;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x628A;&#x5168;&#x90E8;&#x7684;&#x8FD9;&#x4E9B;&#x9875;&#x9762;&#x4EE5;&#x7EBF;&#x6027;&#x7684;&#x5F62;&#x5F0F;&#x6620;&#x5C04;&#x5230;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x3002;&#x540C;&#x65F6;&#x6574;&#x4E2A;&#x8FD9;&#x4E9B;&#x9875;&#x9762;&#x6784;&#x6210;&#x7684;&#x5185;&#x5B58;&#x6BB5;&#x5C06;&#x4F1A;&#x6709;&#x7EDF;&#x4E00;&#x7684;&#x5C5E;&#x6027;&#x4EA4;&#x7531;&#x5185;&#x6838;&#x6765;&#x7BA1;&#x7406;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#xFF0C;&#x6211;&#x4EEC;&#x9996;&#x5148;&#x6765;&#x5C01;&#x88C5;&#x5185;&#x5B58;&#x6BB5;&#x7684;&#x6982;&#x5FF5;&#x3002;</p>
+<h3 id="&#x5185;&#x5B58;&#x6BB5;-segment">&#x5185;&#x5B58;&#x6BB5; Segment</h3>
+<p>&#x6B63;&#x5982;&#x4E0A;&#x9762;&#x8BF4;&#x7684;&#xFF0C;&#x5185;&#x5B58;&#x6BB5;&#x662F;&#x4E00;&#x7BC7;&#x8FDE;&#x7EED;&#x7684;&#x865A;&#x62DF;&#x9875;&#x8303;&#x56F4;&#xFF0C;&#x5176;&#x4E2D;&#x7684;&#x6BCF;&#x4E00;&#x9875;&#x901A;&#x8FC7;&#x7EBF;&#x6027;&#x6620;&#x5C04;&#xFF08;&#x76F4;&#x63A5;&#x504F;&#x79FB;&#x5230;&#x4E00;&#x4E2A;&#x7269;&#x7406;&#x9875;&#xFF09;&#x6216;&#x8005;&#x5206;&#x914D;&#xFF08;&#x5176;&#x4E2D;&#x7684;&#x6BCF;&#x4E2A;&#x865A;&#x62DF;&#x9875;&#x8C03;&#x7528;&#x7269;&#x7406;&#x9875;&#x5206;&#x914D;&#x5668;&#x5206;&#x914D;&#x4E00;&#x4E2A;&#x7269;&#x7406;&#x9875;&#xFF09;&#x3002;&#x7EBF;&#x6027;&#x6620;&#x5C04;&#x51FA;&#x73B0;&#x5728;&#x5185;&#x6838;&#x7A7A;&#x95F4;&#x4E2D;&#xFF1B;&#x800C;&#x4E3A;&#x4E86;&#x652F;&#x6301;&#x6BCF;&#x4E2A;&#x7528;&#x6237;&#x8FDB;&#x7A0B;&#x770B;&#x5230;&#x7684;&#x865A;&#x62DF;&#x7A7A;&#x95F4;&#x662F;&#x4E00;&#x6837;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x4E0D;&#x80FD;&#x5168;&#x90FD;&#x7528;&#x7EBF;&#x6027;&#x6620;&#x5C04;&#xFF0C;&#x6240;&#x4EE5;&#x57FA;&#x4E8E;&#x9875;&#x5206;&#x914D;&#x7684;&#x65B9;&#x5F0F;&#x4F1A;&#x51FA;&#x73B0;&#x5728;&#x7528;&#x6237;&#x8FD9;&#x79CD;&#x60C5;&#x666F;&#x4E0B;&#x3002;&#x5982;&#x679C;&#x4F60;&#x8FD8;&#x662F;&#x4E0D;&#x660E;&#x767D;&#xFF0C;&#x53EF;&#x4EE5;&#x53BB;&#x7FFB;&#x770B;&#x4E00;&#x4E0B;&#x672C;&#x7AE0;&#x7684;&#x300C;&#x865A;&#x62DF;&#x5730;&#x5740;&#x5230;&#x7269;&#x7406;&#x5730;&#x5740;&#x300D;&#x4E00;&#x4E2A;&#x5C0F;&#x8282;&#x4E2D;&#x975E;&#x6559;&#x5B66;&#x7248; rCore &#x7684;&#x6620;&#x5C04;&#x56FE;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#xFF0C;&#x6211;&#x4EEC;&#x7528; enum &#x548C; struct &#x6765;&#x5C01;&#x88C5;&#x5185;&#x5B58;&#x6BB5;&#x6620;&#x5C04;&#x7684;&#x7C7B;&#x578B;&#x548C;&#x5185;&#x5B58;&#x6BB5;&#x672C;&#x8EAB;&#xFF1A;</p>
+<p></p><p class="code-label">os/src/memory/mapping/segment.rs</p><p></p>
+<pre><code class="lang-rust"><span class="hljs-comment">/// &#x6620;&#x5C04;&#x7684;&#x7C7B;&#x578B;</span>
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">MapType</span></span> {
+    <span class="hljs-comment">/// &#x7EBF;&#x6027;&#x6620;&#x5C04;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4F7F;&#x7528;</span>
+    Linear,
+    <span class="hljs-comment">/// &#x6309;&#x5E27;&#x5206;&#x914D;&#x6620;&#x5C04;</span>
+    Framed,
+}
+
+<span class="hljs-comment">/// &#x4E00;&#x4E2A;&#x6620;&#x5C04;&#x7247;&#x6BB5;&#xFF08;&#x5BF9;&#x5E94;&#x65E7; tutorial &#x7684; `MemoryArea`&#xFF09;</span>
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Segment</span></span> {
+    <span class="hljs-comment">/// &#x6620;&#x5C04;&#x7C7B;&#x578B;</span>
+    <span class="hljs-keyword">pub</span> map_type: MapType,
+    <span class="hljs-comment">/// &#x6240;&#x6620;&#x5C04;&#x7684;&#x865A;&#x62DF;&#x5730;&#x5740;</span>
+    <span class="hljs-keyword">pub</span> page_range: Range&lt;VirtualPageNumber&gt;,
+    <span class="hljs-comment">/// &#x6743;&#x9650;&#x6807;&#x5FD7;</span>
+    <span class="hljs-keyword">pub</span> flags: Flags,
+}
+</code></pre>
+<p>&#x540E;&#x9762;&#xFF0C;&#x4E0A;&#x5C42;&#x9700;&#x8981;&#x505A;&#x7684;&#x662F;&#x628A;&#x4E00;&#x4E2A; Segment &#x4E2D;&#x6CA1;&#x6709;&#x5EFA;&#x7ACB;&#x7269;&#x7406;&#x9875;&#x6620;&#x5C04;&#x5173;&#x7CFB;&#x7684;&#x5168;&#x90E8;&#x865A;&#x62DF;&#x9875;&#xFF0C;&#x90FD;&#x7533;&#x8BF7;&#x5230;&#x7269;&#x7406;&#x9875;&#x5E76;&#x5EFA;&#x7ACB;&#x6620;&#x5C04;&#x5173;&#x7CFB;&#xFF08;&#x6216;&#x8005;&#x8BF4;&#x7EBF;&#x6027;&#x6620;&#x5C04;&#x6CA1;&#x6709;&#x8FD9;&#x6837;&#x7684;&#x865A;&#x62DF;&#x9875;&#xFF0C;&#x800C;&#x5206;&#x914D;&#x6620;&#x5C04;&#x9700;&#x8981;&#x628A;&#x6BCF;&#x4E2A;&#x865A;&#x62DF;&#x9875;&#x90FD;&#x7533;&#x8BF7;&#x4E00;&#x4E2A;&#x5BF9;&#x5E94;&#x7684;&#x7269;&#x7406;&#x9875;&#xFF09;&#x3002;</p>
+<p>&#x4E8E;&#x662F;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x8FD9;&#x6837;&#x4E00;&#x4E2A;&#x9700;&#x8981;&#x5177;&#x4F53;&#x5206;&#x914D;&#x7684;&#x8FED;&#x4EE3;&#x5668;&#xFF1A;</p>
+<p></p><p class="code-label">os/src/memory/mapping/segment.rs</p><p></p>
+<pre><code class="lang-rust"><span class="hljs-keyword">impl</span> Segment {
+    <span class="hljs-comment">/// &#x904D;&#x5386;&#x5BF9;&#x5E94;&#x7684;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF08;&#x5982;&#x679C;&#x53EF;&#x80FD;&#xFF09;</span>
+    <span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">iter_mapped</span></span>(&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-built_in">Option</span>&lt;<span class="hljs-keyword">impl</span> <span class="hljs-built_in">Iterator</span>&lt;Item = PhysicalPageNumber&gt;&gt; {
+        <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.map_type {
+            <span class="hljs-comment">// &#x7EBF;&#x6027;&#x6620;&#x5C04;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5C06;&#x865A;&#x62DF;&#x5730;&#x5740;&#x8F6C;&#x6362;</span>
+            MapType::Linear =&gt; <span class="hljs-literal">Some</span>(<span class="hljs-keyword">self</span>.iter().map(PhysicalPageNumber::from)),
+            <span class="hljs-comment">// &#x6309;&#x5E27;&#x6620;&#x5C04;&#x65E0;&#x6CD5;&#x76F4;&#x63A5;&#x83B7;&#x5F97;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF0C;&#x9700;&#x8981;&#x5206;&#x914D;</span>
+            MapType::Framed =&gt; <span class="hljs-literal">None</span>,
+        }
+    }
+}
+</code></pre>
+<h3 id="mapping">Mapping</h3>
+<p>&#x6709;&#x4E86;&#x9875;&#x8868;&#x3001;&#x5185;&#x5B58;&#x6BB5;&#xFF0C;&#x6211;&#x4EEC;&#x5BF9;&#x8FD9;&#x4E24;&#x4E2A;&#x8FDB;&#x884C;&#x7EC4;&#x5408;&#x548C;&#x5C01;&#x88C5;&#xFF0C;&#x501F;&#x52A9;&#x5176;&#x4E2D;&#x5BF9;&#x9875;&#x8868;&#x7684;&#x64CD;&#x4F5C;&#x5B9E;&#x73B0;&#x5BF9;&#x5185;&#x5B58;&#x6BB5;&#x7684;&#x6620;&#x5C04;&#xFF0C;&#x6216;&#x8005;&#x4E5F;&#x53EF;&#x4EE5;&#x8BF4;&#x8FD9;&#x91CC;&#x7684;&#x7ED3;&#x6784;&#x662F;&#x5BF9;&#x4E0A;&#x4E00;&#x5C0F;&#x8282;&#x7684;&#x9875;&#x8868;&#x7684;&#x8FDB;&#x4E00;&#x6B65;&#x7684;&#x4ECE;&#x5355;&#x7EA7;&#x5230;&#x4E09;&#x7EA7;&#x7684;&#x5C01;&#x88C5;&#xFF0C;&#x9700;&#x8981;&#x8BB0;&#x5F55;&#x6839;&#x9875;&#x8868;&#x548C;&#x5BF9;&#x5176;&#x4E2D;&#x7533;&#x8BF7;&#x7684;&#x9875;&#x8868;&#x8FDB;&#x884C;&#x8FFD;&#x8E2A;&#x6765;&#x63A7;&#x5236;&#x4F55;&#x65F6;&#x91CA;&#x653E;&#x7A7A;&#x95F4;&#x3002;</p>
+<p></p><p class="code-label">os/src/memory/mapping/mapping.rs</p><p></p>
+<pre><code class="lang-rust"><span class="hljs-meta">#[derive(Default)]</span>
+<span class="hljs-comment">/// &#x67D0;&#x4E2A;&#x7EBF;&#x7A0B;&#x7684;&#x5185;&#x5B58;&#x6620;&#x5C04;&#x5173;&#x7CFB;</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Mapping</span></span> {
+    <span class="hljs-comment">/// &#x4FDD;&#x5B58;&#x6240;&#x6709;&#x4F7F;&#x7528;&#x5230;&#x7684;&#x9875;&#x8868;</span>
+    page_tables: <span class="hljs-built_in">Vec</span>&lt;PageTableTracker&gt;,
+    <span class="hljs-comment">/// &#x6839;&#x9875;&#x8868;&#x7684;&#x7269;&#x7406;&#x9875;&#x53F7;</span>
+    root_ppn: PhysicalPageNumber,
+}
+
+<span class="hljs-keyword">impl</span> Mapping {
+    <span class="hljs-comment">/// &#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x6709;&#x6839;&#x8282;&#x70B9;&#x7684;&#x6620;&#x5C04;</span>
+    <span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">new</span></span>() -&gt; MemoryResult&lt;Mapping&gt; {
+        <span class="hljs-keyword">let</span> root_table = PageTableTracker::new(FRAME_ALLOCATOR.lock().alloc()?);
+        <span class="hljs-keyword">let</span> root_ppn = root_table.page_number();
+        <span class="hljs-literal">Ok</span>(Mapping {
+            page_tables: <span class="hljs-built_in">vec!</span>[root_table],
+            root_ppn,
+        })
+    }
+}
+</code></pre>
+<p>&#x540E;&#x9762;&#xFF0C;&#x5B9E;&#x73B0;&#x5BF9;&#x9875;&#x8868;&#x7684;&#x67E5;&#x627E;&#xFF0C;&#x5E76;&#x5229;&#x7528;&#x8BE5;&#x51FD;&#x6570;&#x5B9E;&#x73B0;&#x5BF9;&#x865A;&#x62DF;&#x9875;&#x53F7;&#x5230;&#x7269;&#x7406;&#x9875;&#x53F7;&#x7684;&#x6620;&#x5C04;&#xFF1A;</p>
+<p></p><p class="code-label">os/src/memory/mapping/mapping.rs: impl Mapping</p>&#x786E;&#x5B9A;&#x865A;&#x62DF;&#x9875;&#x5230;&#x54EA;&#x4E2A;<p></p>
+<pre><code class="lang-rust"><span class="hljs-comment">/// &#x627E;&#x5230;&#x7ED9;&#x5B9A;&#x865A;&#x62DF;&#x9875;&#x53F7;&#x7684;&#x4E09;&#x7EA7;&#x9875;&#x8868;&#x9879;</span>
+<span class="hljs-comment">///</span>
+<span class="hljs-comment">/// &#x5982;&#x679C;&#x627E;&#x4E0D;&#x5230;&#x5BF9;&#x5E94;&#x7684;&#x9875;&#x8868;&#x9879;&#xFF0C;&#x5219;&#x4F1A;&#x76F8;&#x5E94;&#x521B;&#x5EFA;&#x9875;&#x8868;</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">find_entry</span></span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, vpn: VirtualPageNumber) -&gt; MemoryResult&lt;&amp;<span class="hljs-keyword">mut</span> PageTableEntry&gt; {
+    <span class="hljs-comment">// &#x4ECE;&#x6839;&#x9875;&#x8868;&#x5F00;&#x59CB;&#x5411;&#x4E0B;&#x67E5;&#x8BE2;</span>
+    <span class="hljs-comment">// &#x8FD9;&#x91CC;&#x4E0D;&#x7528; self.page_tables[0] &#x907F;&#x514D;&#x540E;&#x9762;&#x4EA7;&#x751F; borrow-check &#x51B2;&#x7A81;&#xFF08;&#x6211;&#x592A;&#x83DC;&#x4E86;&#xFF09;</span>
+    <span class="hljs-keyword">let</span> root_table: &amp;<span class="hljs-keyword">mut</span> PageTable = PhysicalAddress::from(<span class="hljs-keyword">self</span>.root_ppn).deref_kernel();
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> entry = &amp;<span class="hljs-keyword">mut</span> root_table.entries[vpn.levels()[<span class="hljs-number">0</span>]];
+    <span class="hljs-comment">// println!(&quot;[{}] = {:x?}&quot;, vpn.levels()[0], entry);</span>
+    <span class="hljs-keyword">for</span> vpn_slice <span class="hljs-keyword">in</span> &amp;vpn.levels()[<span class="hljs-number">1</span>..] {
+        <span class="hljs-keyword">if</span> entry.is_empty() {
+            <span class="hljs-comment">// &#x5982;&#x679C;&#x9875;&#x8868;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x5206;&#x914D;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x9875;&#x8868;</span>
+            <span class="hljs-keyword">let</span> new_table = PageTableTracker::new(FRAME_ALLOCATOR.lock().alloc()?);
+            <span class="hljs-keyword">let</span> new_ppn = new_table.page_number();
+            <span class="hljs-comment">// &#x5C06;&#x65B0;&#x9875;&#x8868;&#x7684;&#x9875;&#x53F7;&#x5199;&#x5165;&#x5F53;&#x524D;&#x7684;&#x9875;&#x8868;&#x9879;</span>
+            *entry = PageTableEntry::new(new_ppn, Flags::VALID);
+            <span class="hljs-comment">// &#x4FDD;&#x5B58;&#x9875;&#x8868;</span>
+            <span class="hljs-keyword">self</span>.page_tables.push(new_table);
+        }
+        <span class="hljs-comment">// &#x8FDB;&#x5165;&#x4E0B;&#x4E00;&#x7EA7;&#x9875;&#x8868;&#xFF08;&#x4F7F;&#x7528;&#x504F;&#x79FB;&#x91CF;&#x6765;&#x8BBF;&#x95EE;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF09;</span>
+        entry = &amp;<span class="hljs-keyword">mut</span> entry.get_next_table().entries[*vpn_slice];
+    }
+    <span class="hljs-comment">// &#x6B64;&#x65F6; entry &#x4F4D;&#x4E8E;&#x7B2C;&#x4E09;&#x7EA7;&#x9875;&#x8868;</span>
+    <span class="hljs-literal">Ok</span>(entry)
+}
+
+<span class="hljs-comment">/// &#x4E3A;&#x7ED9;&#x5B9A;&#x7684;&#x865A;&#x62DF; / &#x7269;&#x7406;&#x9875;&#x53F7;&#x5EFA;&#x7ACB;&#x6620;&#x5C04;&#x5173;&#x7CFB;</span>
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">map_one</span></span>(
+    &amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>,
+    vpn: VirtualPageNumber,
+    ppn: PhysicalPageNumber,
+    flags: Flags,
+) -&gt; MemoryResult&lt;()&gt; {
+    <span class="hljs-comment">// &#x5B9A;&#x4F4D;&#x5230;&#x9875;&#x8868;&#x9879;</span>
+    <span class="hljs-keyword">let</span> entry = <span class="hljs-keyword">self</span>.find_entry(vpn)?;
+    <span class="hljs-built_in">assert!</span>(entry.is_empty(), <span class="hljs-string">&quot;virtual address is already mapped&quot;</span>);
+    <span class="hljs-comment">// &#x9875;&#x8868;&#x9879;&#x4E3A;&#x7A7A;&#xFF0C;&#x5219;&#x5199;&#x5165;&#x5185;&#x5BB9;</span>
+    *entry = PageTableEntry::new(ppn, flags);
+    <span class="hljs-literal">Ok</span>(())
+}
+</code></pre>
+<p>&#x6709;&#x4E86; <code>map_one</code> &#x6765;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x865A;&#x62DF;&#x9875;&#x5BF9;&#x7269;&#x7406;&#x9875;&#x7684;&#x6620;&#x5C04;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x5BF9;&#x4E00;&#x4E2A;&#x8FDE;&#x7EED;&#x7684; Segment &#x7684;&#x6620;&#x5C04;&#xFF1A;</p>
+<p></p><p class="code-label">os/src/memory/mapping/mapping.rs: impl Mapping</p><p></p>
+<pre><code class="lang-rust"><span class="hljs-comment">/// &#x52A0;&#x5165;&#x4E00;&#x6BB5;&#x6620;&#x5C04;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x76F8;&#x5E94;&#x5730;&#x5206;&#x914D;&#x7269;&#x7406;&#x9875;&#x9762;</span>
+<span class="hljs-comment">///</span>
+<span class="hljs-comment">/// - `init_data`</span>
+<span class="hljs-comment">///     &#x590D;&#x5236;&#x4E00;&#x6BB5;&#x5185;&#x5B58;&#x533A;&#x57DF;&#x6765;&#x521D;&#x59CB;&#x5316;&#x65B0;&#x7684;&#x5185;&#x5B58;&#x533A;&#x57DF;&#xFF0C;&#x5176;&#x957F;&#x5EA6;&#x5FC5;&#x987B;&#x7B49;&#x4E8E; `segment` &#x7684;&#x5927;&#x5C0F;&#x3002;</span>
+<span class="hljs-comment">///</span>
+<span class="hljs-comment">///</span>
+<span class="hljs-comment">/// &#x672A;&#x88AB;&#x5206;&#x914D;&#x7269;&#x7406;&#x9875;&#x9762;&#x7684;&#x865A;&#x62DF;&#x9875;&#x53F7;&#x6682;&#x65F6;&#x4E0D;&#x4F1A;&#x5199;&#x5165;&#x9875;&#x8868;&#x5F53;&#x4E2D;&#xFF0C;&#x5B83;&#x4EEC;&#x4F1A;&#x5728;&#x53D1;&#x751F; PageFault &#x540E;&#x518D;&#x5EFA;&#x7ACB;&#x9875;&#x8868;&#x9879;&#x3002;</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">map</span></span>(
+    &amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>,
+    segment: &amp;Segment,
+) -&gt; MemoryResult&lt;<span class="hljs-built_in">Vec</span>&lt;(VirtualPageNumber, FrameTracker)&gt;&gt; {
+    <span class="hljs-comment">// segment &#x53EF;&#x80FD;&#x53EF;&#x4EE5;&#x5185;&#x90E8;&#x505A;&#x597D;&#x6620;&#x5C04;</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-literal">Some</span>(ppn_iter) = segment.iter_mapped() {
+        <span class="hljs-comment">// segment &#x53EF;&#x4EE5;&#x63D0;&#x4F9B;&#x6620;&#x5C04;&#xFF0C;&#x90A3;&#x4E48;&#x76F4;&#x63A5;&#x7528;&#x5B83;&#x5F97;&#x5230; vpn &#x548C; ppn &#x7684;&#x8FED;&#x4EE3;&#x5668;</span>
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;map {:x?}&quot;</span>, segment.page_range);
+        <span class="hljs-keyword">for</span> (vpn, ppn) <span class="hljs-keyword">in</span> segment.iter().zip(ppn_iter) {
+            <span class="hljs-keyword">self</span>.map_one(vpn, ppn, segment.flags)?;
+        }
+        <span class="hljs-literal">Ok</span>(<span class="hljs-built_in">vec!</span>[])
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-comment">// &#x9700;&#x8981;&#x518D;&#x5206;&#x914D;&#x5E27;&#x8FDB;&#x884C;&#x6620;&#x5C04;</span>
+        <span class="hljs-comment">// &#x8BB0;&#x5F55;&#x6240;&#x6709;&#x6210;&#x529F;&#x5206;&#x914D;&#x7684;&#x9875;&#x9762;&#x6620;&#x5C04;</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> allocated_pairs = <span class="hljs-built_in">vec!</span>[];
+        <span class="hljs-keyword">for</span> vpn <span class="hljs-keyword">in</span> segment.iter() {
+            <span class="hljs-keyword">let</span> frame: FrameTracker = FRAME_ALLOCATOR.lock().alloc()?;
+            <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;map {:x?} -&gt; {:x?}&quot;</span>, vpn, frame.page_number());
+            <span class="hljs-keyword">self</span>.map_one(vpn, frame.page_number(), segment.flags)?;
+            allocated_pairs.push((vpn, frame));
+        }
+        <span class="hljs-literal">Ok</span>(allocated_pairs)
+    }
+}
+</code></pre>
+<p>&#x6700;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x5B9E;&#x73B0;&#x9875;&#x8868;&#x7684;&#x6FC0;&#x6D3B;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x628A; <code>satp</code> &#x5BC4;&#x5B58;&#x5668;&#x66F4;&#x65B0;&#x5E76;&#x5237;&#x65B0; TLB&#xFF1A;</p>
+<p></p><p class="code-label">os/src/memory/mapping/mapping.rs: impl Mapping</p><p></p>
+<pre><code class="lang-rust"><span class="hljs-comment">/// &#x5C06;&#x5F53;&#x524D;&#x7684;&#x6620;&#x5C04;&#x52A0;&#x8F7D;&#x5230; `satp` &#x5BC4;&#x5B58;&#x5668;</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">activate</span></span>(&amp;<span class="hljs-keyword">self</span>) {
+    <span class="hljs-comment">// satp &#x4F4E; 27 &#x4F4D;&#x4E3A;&#x9875;&#x53F7;&#xFF0C;&#x9AD8; 4 &#x4F4D;&#x4E3A;&#x6A21;&#x5F0F;&#xFF0C;8 &#x8868;&#x793A; Sv39</span>
+    <span class="hljs-keyword">let</span> new_satp = <span class="hljs-keyword">self</span>.root_ppn.<span class="hljs-number">0</span> | (<span class="hljs-number">8</span> &lt;&lt; <span class="hljs-number">60</span>);
+    <span class="hljs-keyword">unsafe</span> {
+        <span class="hljs-comment">// &#x5C06; new_satp &#x7684;&#x503C;&#x5199;&#x5230; satp &#x5BC4;&#x5B58;&#x5668;</span>
+        llvm_asm!(<span class="hljs-string">&quot;csrw satp, $0&quot;</span> :: <span class="hljs-string">&quot;r&quot;</span>(new_satp) :: <span class="hljs-string">&quot;volatile&quot;</span>);
+        <span class="hljs-comment">// &#x5237;&#x65B0; TLB</span>
+        llvm_asm!(<span class="hljs-string">&quot;sfence.vma&quot;</span> :::: <span class="hljs-string">&quot;volatile&quot;</span>);
+    }
+}
+</code></pre>
+<h3 id="memoryset">MemorySet</h3>
+<p>&#x6700;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x628A;&#x5185;&#x6838;&#x7684;&#x6BCF;&#x4E2A;&#x6BB5;&#x6839;&#x636E;&#x4E0D;&#x540C;&#x7684;&#x5C5E;&#x6027;&#x5199;&#x5165;&#x4E0A;&#x9762;&#x7684;&#x5C01;&#x88C5;&#x7684; <code>Mapping</code> &#x4E2D;&#xFF0C;&#x5E76;&#x628A;&#x5B83;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x7ED3;&#x6784; <code>MemorySet</code> &#x7ED9;&#x540E;&#x9762;&#x7684;&#x7EBF;&#x7A0B;&#x7684;&#x6982;&#x5FF5;&#x4F7F;&#x7528;&#xFF0C;&#x8FD9;&#x610F;&#x5473;&#x7740;&#xFF1A;&#x6BCF;&#x4E2A;&#x7EBF;&#x7A0B;&#xFF08;&#x5230;&#x76EE;&#x524D;&#x4E3A;&#x6B62;&#x4F60;&#x53EF;&#x4EE5;&#x5927;&#x81F4;&#x7406;&#x89E3;&#x4E3A;&#x81EA;&#x5DF1;&#x7535;&#x8111;&#x4E2D;&#x7684;&#x540C;&#x65F6;&#x5DE5;&#x4F5C;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4EEC;&#xFF09;&#x5C06;&#x4F1A;&#x62E5;&#x6709;&#x4E00;&#x4E2A; <code>MemorySet</code> &#xFF0C;&#x5176;&#x4E2D;&#x5B58;&#x7684;&#x5C06;&#x4F1A;&#x662F;&#x300C;&#x5B83;&#x770B;&#x5230;&#x7684;&#x865A;&#x62DF;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x5206;&#x6210;&#x7684;&#x5185;&#x5B58;&#x6BB5;&#x300D;&#x548C;&#x300C;&#x8FD9;&#x4E9B;&#x6BB5;&#x4E2D;&#x5305;&#x542B;&#x7684;&#x865A;&#x62DF;&#x9875;&#x5230;&#x7269;&#x7406;&#x9875;&#x7684;&#x6620;&#x5C04;&#x300D;&#xFF1A;</p>
+<p></p><p class="code-label">os/src/memory/mapping/memory_set.rs</p><p></p>
+<pre><code class="lang-rust"><span class="hljs-comment">/// &#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x6240;&#x6709;&#x5173;&#x4E8E;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x7BA1;&#x7406;&#x7684;&#x4FE1;&#x606F;</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">MemorySet</span></span> {
+    <span class="hljs-comment">/// &#x7EF4;&#x62A4;&#x9875;&#x8868;&#x548C;&#x6620;&#x5C04;&#x5173;&#x7CFB;</span>
+    <span class="hljs-keyword">pub</span> mapping: Mapping,
+    <span class="hljs-comment">/// &#x6BCF;&#x4E2A;&#x5B57;&#x6BB5;</span>
+    <span class="hljs-keyword">pub</span> segments: <span class="hljs-built_in">Vec</span>&lt;Segment&gt;,
+}
+</code></pre>
+<p>&#x5230;&#x76EE;&#x524D;&#x4E3A;&#x6B62;&#xFF0C;&#x6211;&#x4EEC;&#x8FD8;&#x53EA;&#x6709;&#x5185;&#x6838;&#x8FD9;&#x4E2A;&#x6982;&#x5FF5;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x53EA;&#x662F;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x5185;&#x6838;&#x7684;&#x7CBE;&#x7EC6;&#x6620;&#x5C04;&#x6765;&#x4EE3;&#x66FF;&#x5F00;&#x59CB;&#x7684;&#x65F6;&#x5019;&#x7C97;&#x7CD9;&#x7684;&#x6743;&#x9650;&#x7BA1;&#x7406;&#xFF08;&#x4E00;&#x5E76;&#x628A;&#x9875;&#x8868;&#x6FC0;&#x6D3B;&#x5B9E;&#x73B0;&#xFF09;&#xFF1A;</p>
+<p></p><p class="code-label">os/src/memory/mapping/memory_set.rs</p><p></p>
+<pre><code class="lang-rust"><span class="hljs-keyword">impl</span> MemorySet {
+    <span class="hljs-comment">/// &#x521B;&#x5EFA;&#x5185;&#x6838;&#x91CD;&#x6620;&#x5C04;</span>
+    <span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">new_kernel</span></span>() -&gt; MemoryResult&lt;MemorySet&gt; {
+        <span class="hljs-comment">// &#x5728; linker.ld &#x91CC;&#x9762;&#x6807;&#x8BB0;&#x7684;&#x5404;&#x4E2A;&#x5B57;&#x6BB5;&#x7684;&#x8D77;&#x59CB;&#x70B9;&#xFF0C;&#x5747;&#x4E3A; 4K &#x5BF9;&#x9F50;</span>
+        <span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> {
+            <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">text_start</span></span>();
+            <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">rodata_start</span></span>();
+            <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">data_start</span></span>();
+            <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">bss_start</span></span>();
+        }
+
+        <span class="hljs-comment">// &#x5EFA;&#x7ACB;&#x5B57;&#x6BB5;</span>
+        <span class="hljs-keyword">let</span> segments = <span class="hljs-built_in">vec!</span>[
+            <span class="hljs-comment">// .text &#x6BB5;&#xFF0C;r-x</span>
+            Segment {
+                map_type: MapType::Linear,
+                page_range: Range::&lt;VirtualAddress&gt;::from(
+                    (text_start <span class="hljs-keyword">as</span> usize)..(rodata_start <span class="hljs-keyword">as</span> usize),
+                )
+                .into(),
+                flags: Flags::VALID | Flags::READABLE | Flags::EXECUTABLE,
+            },
+            <span class="hljs-comment">// .rodata &#x6BB5;&#xFF0C;r--</span>
+            Segment {
+                map_type: MapType::Linear,
+                page_range: Range::&lt;VirtualAddress&gt;::from(
+                    (rodata_start <span class="hljs-keyword">as</span> usize)..(data_start <span class="hljs-keyword">as</span> usize),
+                )
+                .into(),
+                flags: Flags::VALID | Flags::READABLE,
+            },
+            <span class="hljs-comment">// .data &#x6BB5;&#xFF0C;rw-</span>
+            Segment {
+                map_type: MapType::Linear,
+                page_range: Range::&lt;VirtualAddress&gt;::from(
+                    (data_start <span class="hljs-keyword">as</span> usize)..(bss_start <span class="hljs-keyword">as</span> usize),
+                )
+                .into(),
+                flags: Flags::VALID | Flags::READABLE | Flags::WRITABLE,
+            },
+            <span class="hljs-comment">// .bss &#x6BB5;&#xFF0C;rw-</span>
+            Segment {
+                map_type: MapType::Linear,
+                page_range: Range::from(
+                    VirtualAddress::from(bss_start <span class="hljs-keyword">as</span> usize)..*KERNEL_END_ADDRESS,
+                ),
+                flags: Flags::VALID | Flags::READABLE | Flags::WRITABLE,
+            },
+            <span class="hljs-comment">// &#x5269;&#x4F59;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#xFF0C;rw-</span>
+            Segment {
+                map_type: MapType::Linear,
+                page_range: Range::from(
+                    *KERNEL_END_ADDRESS..VirtualAddress::from(MEMORY_END_ADDRESS),
+                ),
+                flags: Flags::VALID | Flags::READABLE | Flags::WRITABLE,
+            },
+        ];
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> mapping = Mapping::new()?;
+        <span class="hljs-comment">// &#x51C6;&#x5907;&#x4FDD;&#x5B58;&#x6240;&#x6709;&#x65B0;&#x5206;&#x914D;&#x7684;&#x7269;&#x7406;&#x9875;&#x9762;</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> allocated_pairs: <span class="hljs-built_in">Box</span>&lt;dyn <span class="hljs-built_in">Iterator</span>&lt;Item = (VirtualPageNumber, FrameTracker)&gt;&gt; =
+            <span class="hljs-built_in">Box</span>::new(core::iter::empty());
+
+        <span class="hljs-comment">// &#x6BCF;&#x4E2A;&#x5B57;&#x6BB5;&#x5728;&#x9875;&#x8868;&#x4E2D;&#x8FDB;&#x884C;&#x6620;&#x5C04;</span>
+        <span class="hljs-keyword">for</span> segment <span class="hljs-keyword">in</span> segments.iter() {
+            <span class="hljs-keyword">let</span> new_pairs = mapping.map(segment)?;
+            <span class="hljs-comment">// &#x540C;&#x65F6;&#x5C06;&#x65B0;&#x5206;&#x914D;&#x7684;&#x6620;&#x5C04;&#x5173;&#x7CFB;&#x4FDD;&#x5B58;&#x5230; allocated_pairs &#x4E2D;</span>
+            allocated_pairs = <span class="hljs-built_in">Box</span>::new(allocated_pairs.chain(new_pairs.into_iter()));
+        }
+        <span class="hljs-literal">Ok</span>(MemorySet { mapping, segments })
+    }
+
+    <span class="hljs-comment">/// &#x66FF;&#x6362; `satp` &#x4EE5;&#x6FC0;&#x6D3B;&#x9875;&#x8868;</span>
+    <span class="hljs-comment">///</span>
+    <span class="hljs-comment">/// &#x5982;&#x679C;&#x5F53;&#x524D;&#x9875;&#x8868;&#x5C31;&#x662F;&#x81EA;&#x8EAB;&#xFF0C;&#x5219;&#x4E0D;&#x4F1A;&#x66FF;&#x6362;&#xFF0C;&#x4F46;&#x4ECD;&#x7136;&#x4F1A;&#x5237;&#x65B0; TLB&#x3002;</span>
+    <span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">activate</span></span>(&amp;<span class="hljs-keyword">self</span>) {
+        <span class="hljs-keyword">self</span>.mapping.activate()
+    }
+}
+</code></pre>
+<p>&#x5230;&#x8FD9;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x5B8C;&#x6574;&#x5B9E;&#x73B0;&#x4E86;&#x5185;&#x6838;&#x7684;&#x91CD;&#x6620;&#x5C04;&#xFF0C;&#x6700;&#x540E;&#x53EF;&#x4EE5;&#x5728;&#x4E3B;&#x51FD;&#x6570;&#x4E2D;&#x6D4B;&#x8BD5;&#x4E00;&#x4E0B;&#xFF1A;</p>
+<p></p><p class="code-label">os/src/main.rs</p><p></p>
+<pre><code class="lang-rust"><span class="hljs-comment">/// Rust &#x7684;&#x5165;&#x53E3;&#x51FD;&#x6570;</span>
+<span class="hljs-comment">///</span>
+<span class="hljs-comment">/// &#x5728; `_start` &#x4E3A;&#x6211;&#x4EEC;&#x8FDB;&#x884C;&#x4E86;&#x4E00;&#x7CFB;&#x5217;&#x51C6;&#x5907;&#x4E4B;&#x540E;&#xFF0C;&#x8FD9;&#x662F;&#x7B2C;&#x4E00;&#x4E2A;&#x88AB;&#x8C03;&#x7528;&#x7684; Rust &#x51FD;&#x6570;</span>
+<span class="hljs-meta">#[no_mangle]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">rust_main</span></span>() -&gt; ! {
+    <span class="hljs-comment">// &#x521D;&#x59CB;&#x5316;&#x5404;&#x79CD;&#x6A21;&#x5757;</span>
+    interrupt::init();
+    memory::init();
+
+    <span class="hljs-keyword">let</span> remap = memory::mapping::MemorySet::new_kernel().unwrap();
+    remap.activate();
+
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;kernel remapped&quot;</span>);
+
+    <span class="hljs-built_in">panic!</span>()
+}
+</code></pre>
+<p>&#x5728;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x7533;&#x8BF7;&#x4E86;&#x4E00;&#x4E2A;&#x5185;&#x6838;&#x7684;&#x91CD;&#x6620;&#x5C04;&#xFF0C;&#x7136;&#x540E;&#x5BF9;&#x9875;&#x8868;&#x8FDB;&#x884C;&#x6FC0;&#x6D3B;&#xFF0C;&#x540E;&#x9762;&#x8FD0;&#x884C;&#x4E86;&#x4E00;&#x53E5;&#x8F93;&#x51FA;&#xFF0C;&#x867D;&#x7136;&#x770B;&#x8D77;&#x6765;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x4E0D;&#x540C;&#xFF0C;&#x53EA;&#x662F;&#x8F93;&#x51FA;&#x4E86;&#x4E00;&#x53E5;&#x8BDD;&#xFF0C;&#x4F46;&#x662F;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x5230;&#x8FD9;&#x53E5;&#x8BDD;&#x6240;&#x7528;&#x7684;&#x6240;&#x6709;&#x903B;&#x8F91;&#x5DF2;&#x7ECF;&#x5EFA;&#x7ACB;&#x5728;&#x4E86;&#x65B0;&#x6784;&#x5EFA;&#x7684;&#x9875;&#x8868;&#x4E0A;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x90A3;&#x4E2A;&#x7C97;&#x7CD9;&#x7684; <code>boot_page_table</code> &#x4E86;&#x3002;<code>boot_page_table</code> &#x5E76;&#x975E;&#x6CA1;&#x6709;&#x7528;&#xFF0C;&#x5B83;&#x4E3A;&#x6211;&#x4EEC;&#x6784;&#x5EFA;&#x91CD;&#x6620;&#x5C04;&#x63D0;&#x4F9B;&#x4E86;&#x652F;&#x6301;&#xFF0C;&#x4F46;&#x7EC8;&#x7A76;&#x6211;&#x4EEC;&#x4F1A;&#x7528;&#x66F4;&#x7CBE;&#x7EC6;&#x7684;&#x9875;&#x8868;&#x548C;&#x6620;&#x5C04;&#x4EE3;&#x66FF;&#x4E86;&#x5B83;&#xFF0C;&#x5B9E;&#x73B0;&#x4E86;&#x66F4;&#x7EC6;&#x81F4;&#x7684;&#x7BA1;&#x7406;&#x548C;&#x5B89;&#x5168;&#x6027;&#x3002;</p>
+<p>&#x81F3;&#x6B64;&#xFF0C;&#x6211;&#x4EEC;&#x5B9E;&#x73B0;&#x4E86;&#x91CD;&#x6620;&#x5C04;&#xFF0C;&#x800C;&#x5728;&#x4E0A;&#x9762;&#x6211;&#x4EEC;&#x4E5F;&#x53EA;&#x662F;&#x7528;&#x4E00;&#x4E2A;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x6765;&#x8C03;&#x7528;&#x4E86;&#x7B80;&#x5355;&#x6D4B;&#x8BD5;&#x4E86;&#x8FD9;&#x4E2A;&#x6620;&#x5C04;&#xFF0C;&#x800C;&#x5B9E;&#x9645;&#x4E0A;&#xFF0C;&#x540E;&#x9762;&#x6211;&#x4EEC;&#x4F1A;&#x628A;&#x5168;&#x90E8;&#x8FD0;&#x884C;&#x7684;&#x903B;&#x8F91;&#x90FD;&#x5C01;&#x88C5;&#x4E3A;&#x7EBF;&#x7A0B;&#xFF0C;&#x6BCF;&#x4E2A;&#x7EBF;&#x7A0B;&#x5C06;&#x4F1A;&#x6709;&#x4E00;&#x4E2A; <code>MemorySet</code> &#x5E76;&#x5B58;&#x5728;&#x4E8E;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x7684;&#x7ED3;&#x6784;&#x4E2D;&#x800C;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x3002;&#x5F53;&#x7EBF;&#x7A0B;&#x9500;&#x6BC1;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x7EBF;&#x7A0B;&#x4E2D;&#x5168;&#x90E8;&#x4F7F;&#x7528;&#x7684;&#x903B;&#x8F91;&#xFF08;&#x5305;&#x62EC;&#x9875;&#x8868;&#x6240;&#x5728;&#x7684;&#x7269;&#x7406;&#x9875;&#x548C;&#x5176;&#x4ED6;&#x7533;&#x8BF7;&#x7684;&#x7269;&#x7406;&#x9875;&#x7B49;&#xFF09;&#x5C06;&#x4F1A;&#x88AB;&#x4E4B;&#x524D;&#x8BBE;&#x8BA1;&#x7684; Tracker &#x673A;&#x5236;&#x81EA;&#x52A8;&#x91CA;&#x653E;&#x3002;</p>
+<p>&#x4E0D;&#x5F97;&#x4E0D;&#x8BF4;&#xFF0C;&#x7528; Rust &#x5199;&#x8FD9;&#x4E9B;&#x5185;&#x5BB9;&#x662F;&#x75DB;&#x82E6;&#x7684;&#xFF08;&#x53EF;&#x80FD;&#x540E;&#x9762;&#x4E00;&#x4E24;&#x4E2A;&#x7AE0;&#x8282;&#x8FD8;&#x4F1A;&#x75DB;&#x82E6;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#xFF09;&#xFF0C;&#x4F46;&#x662F;&#x4E3A;&#x4E86;&#x5145;&#x5206;&#x53D1;&#x6325; Rust &#x7684;&#x7279;&#x6027;&#xFF0C;&#x8FD9;&#x4E9B;&#x6323;&#x624E;&#x662F;&#x5FC5;&#x8981;&#x7684;&#xFF0C;&#x4E00;&#x65E6;&#x6211;&#x4EEC;&#x94FA;&#x5E73;&#x4E86;&#x8FD9;&#x4E9B;&#x57FA;&#x7840;&#x8BBE;&#x65BD;&#xFF0C;&#x540E;&#x9762;&#x7684;&#x6D41;&#x7A0B;&#x4F1A;&#x5927;&#x5927;&#x7B80;&#x5316;&#x3002;&#x5BF9;&#x4E8E;&#x8FD9;&#x4E24;&#x7AE0;&#x7684;&#x5185;&#x5BB9;&#x6211;&#x4EEC;&#x4E5F;&#x7ECF;&#x5386;&#x8FC7;&#x5927;&#x91CF;&#x8BA8;&#x8BBA;&#xFF0C;&#x4E5F;&#x505A;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x8BBE;&#x8BA1;&#x6027;&#x548C;&#x6559;&#x5B66;&#x6027;&#x6743;&#x8861;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x9605;&#x8BFB;&#x6587;&#x6863;&#x8FD8;&#x662F;&#x4E00;&#x5934;&#x96FE;&#x6C34;&#xFF0C;&#x53EF;&#x4EE5;&#x53BB;&#x5B8C;&#x6574;&#x7684;&#x9605;&#x8BFB;&#x4EE3;&#x7801;&#x548C;&#x5BF9;&#x5E94;&#x7684;&#x6CE8;&#x91CA;&#x5E76;&#x5C1D;&#x8BD5;&#x8FD0;&#x884C;&#x3002;
+<div id="page-footer" class="localized-footer"><hr><p><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"></p>
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<div id="gitalk-container"></div>
+<script>
+    var gitalk = new Gitalk({
+        clientID: "5084c46751a4b2f7cd4d",
+        clientSecret: "3904f62d33aef24f19480fedc836a48b31d532e9",
+        repo: "rCore-Tutorial-deploy",
+        owner: "rcore-os",
+        admin: [
+            "chyyuu",
+            "wangrunji0408",
+            "xy-plus",
+            "wyfcyx",
+            "LyricZhao",
+            "Tuyixiang"
+        ],
+        id: location.pathname,
+        distractionFreeMode: false
+    });
+    gitalk.render("gitalk-container");
+</script></div></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="part-3.html" class="navigation navigation-prev " aria-label="Previous page: 实现页表">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="summary.html" class="navigation navigation-next " aria-label="Next page: 小结">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"实现内核重映射","level":"3.4.5","depth":2,"next":{"title":"小结","level":"3.4.6","depth":2,"path":"docs/lab-3/guide/summary.md","ref":"docs/lab-3/guide/summary.md","articles":[]},"previous":{"title":"实现页表","level":"3.4.4","depth":2,"path":"docs/lab-3/guide/part-3.md","ref":"docs/lab-3/guide/part-3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","chapter-fold","katex","alerts","emphasize","mermaid-gb3","codeblock-label","code","search-pro","click-reveal","expandable-chapters-interactive","localized-footer"],"pluginsConfig":{"chapter-fold":{},"emphasize":{},"codeblock-label":{},"search-pro":{},"search":{},"localized-footer":{"filename":"gitalk.html","hline":"true"},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"code":{"copyButtons":true},"hide-element":{},"katex":{},"fontsettings":{"theme":"white","family":"sans","size":1},"click-reveal":{},"highlight":{},"mermaid-gb3":{},"expandable-chapters-interactive":{},"alerts":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/lab-3/guide/part-4.md","mtime":"2020-07-11T06:02:35.440Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-07-11T12:25:02.597Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-chapter-fold/chapter-fold.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-alerts/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-click-reveal/click_reveal.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-expandable-chapters-interactive/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    <script src="../../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+

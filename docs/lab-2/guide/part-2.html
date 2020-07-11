@@ -1,0 +1,1382 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>物理内存探测 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-chapter-fold/chapter-fold.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-katex/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-alerts/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-emphasize/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-codeblock-label/block.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-click-reveal/click_reveal.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-expandable-chapters-interactive/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="part-3.html" />
+    
+    
+    <link rel="prev" href="part-1.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    实验简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">实验之前</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../../pre-lab/env.html">
+            
+                <a href="../../pre-lab/env.html">
+            
+                    
+                    环境部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../../pre-lab/gdb.html">
+            
+                <a href="../../pre-lab/gdb.html">
+            
+                    
+                    GDB 调试方法*
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">实验指导</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" >
+            
+                <span>
+            
+                    
+                    实验指导零
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../../lab-0/guide/intro.html">
+            
+                <a href="../../lab-0/guide/intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../../lab-0/guide/part-1.html">
+            
+                <a href="../../lab-0/guide/part-1.html">
+            
+                    
+                    创建项目
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="../../lab-0/guide/part-2.html">
+            
+                <a href="../../lab-0/guide/part-2.html">
+            
+                    
+                    移除标准库依赖
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="../../lab-0/guide/part-3.html">
+            
+                <a href="../../lab-0/guide/part-3.html">
+            
+                    
+                    移除运行时环境依赖
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="../../lab-0/guide/part-4.html">
+            
+                <a href="../../lab-0/guide/part-4.html">
+            
+                    
+                    编译为裸机目标
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="../../lab-0/guide/part-5.html">
+            
+                <a href="../../lab-0/guide/part-5.html">
+            
+                    
+                    生成内核镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="../../lab-0/guide/part-6.html">
+            
+                <a href="../../lab-0/guide/part-6.html">
+            
+                    
+                    调整内存布局
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="../../lab-0/guide/part-7.html">
+            
+                <a href="../../lab-0/guide/part-7.html">
+            
+                    
+                    重写程序入口点
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="../../lab-0/guide/part-8.html">
+            
+                <a href="../../lab-0/guide/part-8.html">
+            
+                    
+                    使用 QEMU 运行
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.10" data-path="../../lab-0/guide/part-9.html">
+            
+                <a href="../../lab-0/guide/part-9.html">
+            
+                    
+                    接口封装和代码整理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.11" data-path="../../lab-0/guide/summary.html">
+            
+                <a href="../../lab-0/guide/summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" >
+            
+                <span>
+            
+                    
+                    实验指导一
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="../../lab-1/guide/intro.html">
+            
+                <a href="../../lab-1/guide/intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="../../lab-1/guide/part-1.html">
+            
+                <a href="../../lab-1/guide/part-1.html">
+            
+                    
+                    什么是中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="../../lab-1/guide/part-2.html">
+            
+                <a href="../../lab-1/guide/part-2.html">
+            
+                    
+                    RISC-V 中的中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.4" data-path="../../lab-1/guide/part-3.html">
+            
+                <a href="../../lab-1/guide/part-3.html">
+            
+                    
+                    程序运行状态
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.5" data-path="../../lab-1/guide/part-4.html">
+            
+                <a href="../../lab-1/guide/part-4.html">
+            
+                    
+                    状态的保存与恢复
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.6" data-path="../../lab-1/guide/part-5.html">
+            
+                <a href="../../lab-1/guide/part-5.html">
+            
+                    
+                    进入中断处理流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.7" data-path="../../lab-1/guide/part-6.html">
+            
+                <a href="../../lab-1/guide/part-6.html">
+            
+                    
+                    时钟中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.8" data-path="../../lab-1/guide/summary.html">
+            
+                <a href="../../lab-1/guide/summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" >
+            
+                <span>
+            
+                    
+                    实验指导二
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="intro.html">
+            
+                <a href="intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.2" data-path="part-1.html">
+            
+                <a href="part-1.html">
+            
+                    
+                    动态内存分配
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.3.3" data-path="part-2.html">
+            
+                <a href="part-2.html">
+            
+                    
+                    物理内存探测
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.4" data-path="part-3.html">
+            
+                <a href="part-3.html">
+            
+                    
+                    物理内存管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.5" data-path="summary.html">
+            
+                <a href="summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" >
+            
+                <span>
+            
+                    
+                    实验指导三
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.4.1" data-path="../../lab-3/guide/intro.html">
+            
+                <a href="../../lab-3/guide/intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.2" data-path="../../lab-3/guide/part-1.html">
+            
+                <a href="../../lab-3/guide/part-1.html">
+            
+                    
+                    从虚拟地址到物理地址
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.3" data-path="../../lab-3/guide/part-2.html">
+            
+                <a href="../../lab-3/guide/part-2.html">
+            
+                    
+                    修改内核
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.4" data-path="../../lab-3/guide/part-3.html">
+            
+                <a href="../../lab-3/guide/part-3.html">
+            
+                    
+                    实现页表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.5" data-path="../../lab-3/guide/part-4.html">
+            
+                <a href="../../lab-3/guide/part-4.html">
+            
+                    
+                    实现内核重映射
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.6" data-path="../../lab-3/guide/summary.html">
+            
+                <a href="../../lab-3/guide/summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" >
+            
+                <span>
+            
+                    
+                    实验指导四
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.5.1" data-path="../../lab-4/guide/intro.html">
+            
+                <a href="../../lab-4/guide/intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5.2" data-path="../../lab-4/guide/part-1.html">
+            
+                <a href="../../lab-4/guide/part-1.html">
+            
+                    
+                    线程和进程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5.3" data-path="../../lab-4/guide/part-2.html">
+            
+                <a href="../../lab-4/guide/part-2.html">
+            
+                    
+                    线程的创建
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5.4" data-path="../../lab-4/guide/part-3.html">
+            
+                <a href="../../lab-4/guide/part-3.html">
+            
+                    
+                    线程的切换
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5.5" data-path="../../lab-4/guide/part-4.html">
+            
+                <a href="../../lab-4/guide/part-4.html">
+            
+                    
+                    内核栈
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5.6" data-path="../../lab-4/guide/part-5.html">
+            
+                <a href="../../lab-4/guide/part-5.html">
+            
+                    
+                    线程调度
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5.7" data-path="../../lab-4/guide/summary.html">
+            
+                <a href="../../lab-4/guide/summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" >
+            
+                <span>
+            
+                    
+                    实验指导五
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.6.1" data-path="../../lab-5/guide/intro.html">
+            
+                <a href="../../lab-5/guide/intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6.2" data-path="../../lab-5/guide/part-1.html">
+            
+                <a href="../../lab-5/guide/part-1.html">
+            
+                    
+                    设备树
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6.3" data-path="../../lab-5/guide/part-2.html">
+            
+                <a href="../../lab-5/guide/part-2.html">
+            
+                    
+                    virtio
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6.4" data-path="../../lab-5/guide/part-3.html">
+            
+                <a href="../../lab-5/guide/part-3.html">
+            
+                    
+                    驱动和块设备驱动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6.5" data-path="../../lab-5/guide/part-4.html">
+            
+                <a href="../../lab-5/guide/part-4.html">
+            
+                    
+                    文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6.6" data-path="../../lab-5/guide/summary.html">
+            
+                <a href="../../lab-5/guide/summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" >
+            
+                <span>
+            
+                    
+                    实验指导六
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.7.1" data-path="../../lab-6/guide/intro.html">
+            
+                <a href="../../lab-6/guide/intro.html">
+            
+                    
+                    摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.2" data-path="../../lab-6/guide/part-1.html">
+            
+                <a href="../../lab-6/guide/part-1.html">
+            
+                    
+                    构建用户程序框架
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.3" data-path="../../lab-6/guide/part-2.html">
+            
+                <a href="../../lab-6/guide/part-2.html">
+            
+                    
+                    打包为磁盘镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.4" data-path="../../lab-6/guide/part-3.html">
+            
+                <a href="../../lab-6/guide/part-3.html">
+            
+                    
+                    解析 ELF 文件并创建线程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.5" data-path="../../lab-6/guide/part-4.html">
+            
+                <a href="../../lab-6/guide/part-4.html">
+            
+                    
+                    实现系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.6" data-path="../../lab-6/guide/part-5.html">
+            
+                <a href="../../lab-6/guide/part-5.html">
+            
+                    
+                    处理文件描述符
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.7" data-path="../../lab-6/guide/part-6.html">
+            
+                <a href="../../lab-6/guide/part-6.html">
+            
+                    
+                    条件变量
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.8" data-path="../../lab-6/guide/summary.html">
+            
+                <a href="../../lab-6/guide/summary.html">
+            
+                    
+                    小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">实验题</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../../lab-1/practice.html">
+            
+                <a href="../../lab-1/practice.html">
+            
+                    
+                    实验一：中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../practice.html">
+            
+                <a href="../practice.html">
+            
+                    
+                    实验二：内存分配
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >物理内存探测</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="&#x7269;&#x7406;&#x5185;&#x5B58;&#x63A2;&#x6D4B;">&#x7269;&#x7406;&#x5185;&#x5B58;&#x63A2;&#x6D4B;</h2>
+<h3 id="&#x7269;&#x7406;&#x5185;&#x5B58;&#x7684;&#x76F8;&#x5173;&#x6982;&#x5FF5;">&#x7269;&#x7406;&#x5185;&#x5B58;&#x7684;&#x76F8;&#x5173;&#x6982;&#x5FF5;</h3>
+<p>&#x6211;&#x4EEC;&#x77E5;&#x9053;&#xFF0C;&#x7269;&#x7406;&#x5730;&#x5740;&#x8BBF;&#x95EE;&#x7684;&#x901A;&#x5E38;&#x662F;&#x4E00;&#x7247; DRAM&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x628A;&#x5B83;&#x770B;&#x6210;&#x4E00;&#x4E2A;&#x4EE5;&#x5B57;&#x8282;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x5927;&#x6570;&#x7EC4;&#xFF0C;&#x901A;&#x8FC7;&#x7269;&#x7406;&#x5730;&#x5740;&#x627E;&#x5230;&#x5BF9;&#x5E94;&#x7684;&#x4F4D;&#x7F6E;&#x8FDB;&#x884C;&#x8BFB;&#x5199;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x7269;&#x7406;&#x5730;&#x5740;&#x5E76;&#x4E0D;&#x4EC5;&#x4EC5;&#x53EA;&#x80FD;&#x8BBF;&#x95EE; DRAM&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x8BBF;&#x95EE;&#x5176;&#x4ED6;&#x7684;&#x5916;&#x8BBE;&#xFF0C;&#x56E0;&#x6B64;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x8BA4;&#x4E3A; DRAM &#x4E5F;&#x7B97;&#x662F;&#x4E00;&#x79CD;&#x5916;&#x8BBE;&#xFF0C;&#x7269;&#x7406;&#x5730;&#x5740;&#x5219;&#x662F;&#x4E00;&#x4E2A;&#x5BF9;&#x53EF;&#x4EE5;&#x5B58;&#x50A8;&#x7684;&#x4ECB;&#x8D28;&#x7684;&#x4E00;&#x79CD;&#x62BD;&#x8C61;&#x3002;</p>
+<p>&#x800C;&#x5982;&#x679C;&#x8BBF;&#x95EE;&#x5176;&#x4ED6;&#x5916;&#x8BBE;&#x8981;&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x6307;&#x4EE4;&#xFF08;&#x5982; x86 &#x5355;&#x72EC;&#x63D0;&#x4F9B;&#x4E86; <code>in</code> &#x548C; <code>out</code> &#x7B49;&#x6307;&#x4EE4;&#x6765;&#x8BBF;&#x95EE;&#x4E0D;&#x540C;&#x4E8E;&#x5185;&#x5B58;&#x7684; IO &#x5730;&#x5740;&#x7A7A;&#x95F4;&#xFF09;&#xFF0C;&#x4F1A;&#x6BD4;&#x8F83;&#x9EBB;&#x70E6;&#xFF1B;&#x4E8E;&#x662F;&#xFF0C;&#x5F88;&#x591A;&#x6307;&#x4EE4;&#x96C6;&#x67B6;&#x6784;&#xFF08;&#x5982; RISC-V&#x3001;ARM &#x548C; MIPS &#x7B49;&#xFF09;&#x901A;&#x8FC7; MMIO&#xFF08;Memory Mapped I/O&#xFF09;&#x6280;&#x672F;&#x5C06;&#x5916;&#x8BBE;&#x6620;&#x5C04;&#x5230;&#x4E00;&#x6BB5;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF0C;&#x8FD9;&#x6837;&#x6211;&#x4EEC;&#x8BBF;&#x95EE;&#x5176;&#x4ED6;&#x5916;&#x8BBE;&#x5C31;&#x548C;&#x8BBF;&#x95EE;&#x7269;&#x7406;&#x5185;&#x5B58;&#x4E00;&#x6837;&#x4E86;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x5148;&#x4E0D;&#x7BA1;&#x90A3;&#x4E9B;&#x5916;&#x8BBE;&#xFF0C;&#x6765;&#x770B;&#x7269;&#x7406;&#x5185;&#x5B58;&#x3002;</p>
+<h3 id="&#x7269;&#x7406;&#x5185;&#x5B58;&#x63A2;&#x6D4B;">&#x7269;&#x7406;&#x5185;&#x5B58;&#x63A2;&#x6D4B;</h3>
+<p>&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x600E;&#x6837;&#x77E5;&#x9053;&#x7269;&#x7406;&#x5185;&#x5B58;&#x6240;&#x5728;&#x7684;&#x90A3;&#x6BB5;&#x7269;&#x7406;&#x5730;&#x5740;&#x5462;&#xFF1F;&#x5728; RISC-V &#x4E2D;&#xFF0C;&#x8FD9;&#x4E2A;&#x4E00;&#x822C;&#x662F;&#x7531;<code>Bootloader</code> &#xFF0C;&#x5373;<code>OpenSBI</code>&#x56FA;&#x4EF6;&#x6765;&#x5B8C;&#x6210;&#x7684;&#x3002;&#x5B83;&#x6765;&#x5B8C;&#x6210;&#x5BF9;&#x4E8E;&#x5305;&#x62EC;&#x7269;&#x7406;&#x5185;&#x5B58;&#x5728;&#x5185;&#x7684;&#x5404;&#x5916;&#x8BBE;&#x7684;&#x626B;&#x63CF;&#xFF0C;&#x5C06;&#x626B;&#x63CF;&#x7ED3;&#x679C;&#x4EE5;<code>DTB&#xFF08;Device Tree Blob&#xFF09;</code>&#x7684;&#x683C;&#x5F0F;&#x4FDD;&#x5B58;&#x5728;&#x7269;&#x7406;&#x5185;&#x5B58;&#x4E2D;&#x7684;&#x67D0;&#x4E2A;&#x5730;&#x65B9;&#x3002;&#x968F;&#x540E; OpenSBI &#x56FA;&#x4EF6;&#x4F1A;&#x5C06;&#x5176;&#x5730;&#x5740;&#x4FDD;&#x5B58;&#x5728; <code>a1</code> &#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF0C;&#x7ED9;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x3002;</p>
+<p>&#x8FD9;&#x4E2A;&#x626B;&#x63CF;&#x7ED3;&#x679C;&#x63CF;&#x8FF0;&#x4E86;&#x6240;&#x6709;&#x5916;&#x8BBE;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x5F53;&#x4E2D;&#x4E5F;&#x5305;&#x62EC; QEMU &#x6A21;&#x62DF;&#x7684; RISC-V Virt &#x8BA1;&#x7B97;&#x673A;&#x4E2D;&#x7684;&#x7269;&#x7406;&#x5185;&#x5B58;&#x3002;</p>
+<blockquote>
+<p><strong>[info] QEMU &#x6A21;&#x62DF;&#x7684; RISC-V Virt &#x8BA1;&#x7B97;&#x673A;&#x4E2D;&#x7684;&#x7269;&#x7406;&#x5185;&#x5B58;</strong></p>
+<p>&#x901A;&#x8FC7;&#x67E5;&#x770B; QEMU &#x4EE3;&#x7801;&#x4E2D; <a href="https://github.com/qemu/qemu/blob/master/hw/riscv/virt.c" target="_blank"><code>hw/riscv/virt.c</code></a> &#x7684; <code>virt_memmap[]</code> &#x7684;&#x5B9A;&#x4E49;&#xFF0C;&#x53EF;&#x4EE5;&#x4E86;&#x89E3;&#x5230; QEMU &#x6A21;&#x62DF;&#x7684; RISC-V Virt &#x8BA1;&#x7B97;&#x673A;&#x7684;&#x8BE6;&#x7EC6;&#x7269;&#x7406;&#x5185;&#x5B58;&#x5E03;&#x5C40;&#x3002;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x6574;&#x4E2A;&#x7269;&#x7406;&#x5185;&#x5B58;&#x4E2D;&#x6709;&#x4E0D;&#x5C11;&#x5185;&#x5B58;&#x7A7A;&#x6D1E;&#xFF08;&#x5373;&#x542B;&#x4E49;&#x4E3A; unmapped &#x7684;&#x5730;&#x5740;&#x7A7A;&#x95F4;&#xFF09;&#xFF0C;&#x4E5F;&#x6709;&#x5F88;&#x591A;&#x5916;&#x8BBE;&#x7279;&#x5B9A;&#x7684;&#x5730;&#x5740;&#x7A7A;&#x95F4;&#xFF0C;&#x73B0;&#x5728;&#x6211;&#x4EEC;&#x770B;&#x4E0D;&#x61C2;&#x6CA1;&#x6709;&#x5173;&#x7CFB;&#xFF0C;&#x540E;&#x9762;&#x4F1A;&#x6162;&#x6162;&#x6D89;&#x53CA;&#x5230;&#x3002;&#x76EE;&#x524D;&#x53EA;&#x9700;&#x5173;&#x5FC3;&#x6700;&#x540E;&#x4E00;&#x5757;&#x542B;&#x4E49;&#x4E3A; DRAM &#x7684;&#x5730;&#x5740;&#x7A7A;&#x95F4;&#xFF0C;&#x8FD9;&#x5C31;&#x662F; OS &#x5C06;&#x8981;&#x7BA1;&#x7406;&#x7684; 128 MB &#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x3002;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">&#x8D77;&#x59CB;&#x5730;&#x5740;</th>
+<th style="text-align:center">&#x7EC8;&#x6B62;&#x5730;&#x5740;</th>
+<th style="text-align:left">&#x542B;&#x4E49;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0x0</td>
+<td style="text-align:center">0x100</td>
+<td style="text-align:left">QEMU VIRT_DEBUG</td>
+</tr>
+<tr>
+<td style="text-align:center">0x100</td>
+<td style="text-align:center">0x1000</td>
+<td style="text-align:left">unmapped</td>
+</tr>
+<tr>
+<td style="text-align:center">0x1000</td>
+<td style="text-align:center">0x12000</td>
+<td style="text-align:left">QEMU MROM</td>
+</tr>
+<tr>
+<td style="text-align:center">0x12000</td>
+<td style="text-align:center">0x100000</td>
+<td style="text-align:left">unmapped</td>
+</tr>
+<tr>
+<td style="text-align:center">0x100000</td>
+<td style="text-align:center">0x101000</td>
+<td style="text-align:left">QEMU VIRT_TEST</td>
+</tr>
+<tr>
+<td style="text-align:center">0x101000</td>
+<td style="text-align:center">0x2000000</td>
+<td style="text-align:left">unmapped</td>
+</tr>
+<tr>
+<td style="text-align:center">0x2000000</td>
+<td style="text-align:center">0x2010000</td>
+<td style="text-align:left">QEMU VIRT_CLINT</td>
+</tr>
+<tr>
+<td style="text-align:center">0x2010000</td>
+<td style="text-align:center">0x3000000</td>
+<td style="text-align:left">unmapped</td>
+</tr>
+<tr>
+<td style="text-align:center">0x3000000</td>
+<td style="text-align:center">0x3010000</td>
+<td style="text-align:left">QEMU VIRT_PCIE_PIO</td>
+</tr>
+<tr>
+<td style="text-align:center">0x3010000</td>
+<td style="text-align:center">0xc000000</td>
+<td style="text-align:left">unmapped</td>
+</tr>
+<tr>
+<td style="text-align:center">0xc000000</td>
+<td style="text-align:center">0x10000000</td>
+<td style="text-align:left">QEMU VIRT_PLIC</td>
+</tr>
+<tr>
+<td style="text-align:center">0x10000000</td>
+<td style="text-align:center">0x10000100</td>
+<td style="text-align:left">QEMU VIRT_UART0</td>
+</tr>
+<tr>
+<td style="text-align:center">0x10000100</td>
+<td style="text-align:center">0x10001000</td>
+<td style="text-align:left">unmapped</td>
+</tr>
+<tr>
+<td style="text-align:center">0x10001000</td>
+<td style="text-align:center">0x10002000</td>
+<td style="text-align:left">QEMU VIRT_VIRTIO</td>
+</tr>
+<tr>
+<td style="text-align:center">0x10002000</td>
+<td style="text-align:center">0x20000000</td>
+<td style="text-align:left">unmapped</td>
+</tr>
+<tr>
+<td style="text-align:center">0x20000000</td>
+<td style="text-align:center">0x24000000</td>
+<td style="text-align:left">QEMU VIRT_FLASH</td>
+</tr>
+<tr>
+<td style="text-align:center">0x24000000</td>
+<td style="text-align:center">0x30000000</td>
+<td style="text-align:left">unmapped</td>
+</tr>
+<tr>
+<td style="text-align:center">0x30000000</td>
+<td style="text-align:center">0x40000000</td>
+<td style="text-align:left">QEMU VIRT_PCIE_ECAM</td>
+</tr>
+<tr>
+<td style="text-align:center">0x40000000</td>
+<td style="text-align:center">0x80000000</td>
+<td style="text-align:left">QEMU VIRT_PCIE_MMIO</td>
+</tr>
+<tr>
+<td style="text-align:center">0x80000000</td>
+<td style="text-align:center">0x88000000</td>
+<td style="text-align:left">DRAM &#x7F3A;&#x7701; 128MB&#xFF0C;&#x5927;&#x5C0F;&#x53EF;&#x914D;&#x7F6E;</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>&#x4E0D;&#x8FC7;&#x4E3A;&#x4E86;&#x7B80;&#x5355;&#x8D77;&#x89C1;&#xFF0C;&#x6211;&#x4EEC;&#x5E76;&#x4E0D;&#x6253;&#x7B97;&#x81EA;&#x5DF1;&#x53BB;&#x89E3;&#x6790;&#x8FD9;&#x4E2A;&#x7ED3;&#x679C;&#x3002;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#xFF0C;QEMU &#x89C4;&#x5B9A;&#x7684; DRAM &#x7269;&#x7406;&#x5185;&#x5B58;&#x7684;&#x8D77;&#x59CB;&#x7269;&#x7406;&#x5730;&#x5740;&#x4E3A; 0x80000000 &#x3002;&#x800C;&#x5728; QEMU &#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>-m</code> &#x6307;&#x5B9A; RAM &#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F; 128 MB &#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x9ED8;&#x8BA4;&#x7684; DRAM &#x7269;&#x7406;&#x5185;&#x5B58;&#x5730;&#x5740;&#x8303;&#x56F4;&#x5C31;&#x662F; [0x80000000, 0x88000000)&#x3002;</p>
+<p>&#x56E0;&#x4E3A;&#x540E;&#x9762;&#x8FD8;&#x4F1A;&#x6D89;&#x53CA;&#x5230;&#x865A;&#x62DF;&#x5730;&#x5740;&#x3001;&#x7269;&#x7406;&#x9875;&#x548C;&#x865A;&#x62DF;&#x9875;&#x9762;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x4E3A;&#x4E86;&#x8FDB;&#x4E00;&#x6B65;&#x533A;&#x5206;&#x800C;&#x4E0D;&#x662F;&#x7B80;&#x5355;&#x7684;&#x53EA;&#x662F;&#x4F7F;&#x7528; <code>usize</code> &#x7C7B;&#x578B;&#x6765;&#x5B58;&#x50A8;&#xFF0C;&#x6211;&#x4EEC;&#x9996;&#x5148;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A; <code>PhysicalAddress</code> &#x7684;&#x7C7B;&#xFF0C;&#x7136;&#x540E;&#x5BF9;&#x5176;&#x5B9E;&#x73B0;&#x4E00;&#x7CFB;&#x5217;&#x7684; <code>usize</code> &#x7684;&#x52A0;&#x3001;&#x51CF;&#x548C;&#x8F93;&#x51FA;&#x7B49;&#x7B49;&#x64CD;&#x4F5C;&#xFF0C;&#x7531;&#x4E8E;&#x8FD9;&#x90E8;&#x5206;&#x5B9E;&#x73B0;&#x504F;&#x5411;&#x4E8E; Rust &#x8BED;&#x6CD5;&#x800C;&#x975E; OS&#xFF0C;&#x8FD9;&#x91CC;&#x4E0D;&#x8D34;&#x51FA;&#x4EE3;&#x7801;&#xFF0C;&#x8BF7;&#x53C2;&#x8003; <code>os/src/memory/address.rs</code> &#x6587;&#x4EF6;&#x3002;</p>
+<p>&#x7136;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x76F4;&#x63A5;&#x5C06; DRAM &#x7269;&#x7406;&#x5185;&#x5B58;&#x7ED3;&#x675F;&#x5730;&#x5740;&#x786C;&#x7F16;&#x7801;&#x5230;&#x5185;&#x6838;&#x4E2D;&#xFF0C;&#x540C;&#x65F6;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x672C;&#x8EAB;&#x4E5F;&#x7528;&#x4E86;&#x4E00;&#x90E8;&#x5206;&#x7A7A;&#x95F4;&#xFF0C;&#x6211;&#x4EEC;&#x4E5F;&#x8BB0;&#x5F55;&#x4E0B;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7528;&#x5230;&#x7684;&#x5730;&#x5740;&#x7ED3;&#x5C3E;&#xFF08;&#x5373; linker script &#x4E2D;&#x7684; <code>kernel_end</code>&#xFF09;&#x3002;</p>
+<p></p><p class="code-label">os/src/memory/config.rs</p><p></p>
+<pre><code class="lang-rust">lazy_static! {
+    <span class="hljs-comment">/// &#x5185;&#x6838;&#x4EE3;&#x7801;&#x7ED3;&#x675F;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x5373;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x5206;&#x914D;&#x7684;&#x5185;&#x5B58;&#x8D77;&#x59CB;&#x5730;&#x5740;</span>
+    <span class="hljs-comment">///</span>
+    <span class="hljs-comment">/// &#x56E0;&#x4E3A; Rust &#x8BED;&#x8A00;&#x9650;&#x5236;&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x80FD;&#x5C06;&#x5176;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x8FD0;&#x884C;&#x65F6;&#x6C42;&#x503C;&#x7684; static &#x53D8;&#x91CF;&#xFF0C;&#x800C;&#x4E0D;&#x80FD;&#x4F5C;&#x4E3A; const</span>
+    <span class="hljs-keyword">pub</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">ref</span> KERNEL_END_ADDRESS: PhysicalAddress = PhysicalAddress(kernel_end <span class="hljs-keyword">as</span> usize);
+}
+
+<span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> {
+    <span class="hljs-comment">/// &#x7531; `linker.ld` &#x6307;&#x5B9A;&#x7684;&#x5185;&#x6838;&#x4EE3;&#x7801;&#x7ED3;&#x675F;&#x4F4D;&#x7F6E;</span>
+    <span class="hljs-comment">///</span>
+    <span class="hljs-comment">/// &#x4F5C;&#x4E3A;&#x53D8;&#x91CF;&#x5B58;&#x5728; [`KERNEL_END_ADDRESS`]</span>
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">kernel_end</span></span>();
+}
+</code></pre>
+<p>&#x8FD9;&#x91CC;&#x4F7F;&#x7528;&#x4E86; <code>lazy_static</code> &#x5E93;&#xFF0C;&#x7531;&#x4E8E; Rust &#x8BED;&#x8A00;&#x7684;&#x9650;&#x5236;&#xFF0C;&#x6211;&#x4EEC;&#x80FD;&#x5BF9;&#x7F16;&#x8BD1;&#x65F6; <code>kernel_end</code> &#x505A;&#x4E00;&#x4E2A;&#x6C42;&#x503C;&#x7136;&#x540E;&#x8D4B;&#x503C;&#x5230; <code>KERNEL_END_ADDRESS</code> &#x4E2D;&#xFF1B;&#x6240;&#x4EE5;&#xFF0C;<code>lazy_static!</code> &#x5B8F;&#x5E2E;&#x52A9;&#x6211;&#x4EEC;&#x5728;&#x7B2C;&#x4E00;&#x6B21;&#x4F7F;&#x7528; <code>lazy_static!</code> &#x5B8F;&#x5305;&#x88F9;&#x7684;&#x53D8;&#x91CF;&#x65F6;&#x81EA;&#x52A8;&#x5B8C;&#x6210;&#x8FD9;&#x4E9B;&#x6C42;&#x503C;&#x5DE5;&#x4F5C;&#x3002;</p>
+<p>&#x6700;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x5728;&#x5404;&#x7EA7;&#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x5165;&#x6A21;&#x5757;&#x8C03;&#x7528;&#xFF0C;&#x5E76;&#x5728; <code>os/src/main.rs</code> &#x5C1D;&#x8BD5;&#x8F93;&#x51FA;&#x3002;</p>
+<p></p><p class="code-label">os/src/main.rs</p><p></p>
+<pre><code class="lang-rust"><span class="hljs-comment">/// Rust &#x7684;&#x5165;&#x53E3;&#x51FD;&#x6570;</span>
+<span class="hljs-comment">///</span>
+<span class="hljs-comment">/// &#x5728; `_start` &#x4E3A;&#x6211;&#x4EEC;&#x8FDB;&#x884C;&#x4E86;&#x4E00;&#x7CFB;&#x5217;&#x51C6;&#x5907;&#x4E4B;&#x540E;&#xFF0C;&#x8FD9;&#x662F;&#x7B2C;&#x4E00;&#x4E2A;&#x88AB;&#x8C03;&#x7528;&#x7684; Rust &#x51FD;&#x6570;</span>
+<span class="hljs-meta">#[no_mangle]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">rust_main</span></span>() -&gt; ! {
+    <span class="hljs-comment">// &#x521D;&#x59CB;&#x5316;&#x5404;&#x79CD;&#x6A21;&#x5757;</span>
+    interrupt::init();
+    memory::init();
+
+    <span class="hljs-comment">// &#x6CE8;&#x610F;&#x8FD9;&#x91CC;&#x7684; KERNEL_END_ADDRESS &#x4E3A; ref &#x7C7B;&#x578B;&#xFF0C;&#x9700;&#x8981;&#x52A0; *</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, *memory::config::KERNEL_END_ADDRESS);
+
+    <span class="hljs-built_in">panic!</span>()
+}
+</code></pre>
+<p>&#x6700;&#x540E;&#x8FD0;&#x884C;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6210;&#x529F;&#x663E;&#x793A;&#x4E86;&#x6211;&#x4EEC;&#x5185;&#x6838;&#x4F7F;&#x7528;&#x7684;&#x7ED3;&#x5C3E;&#x5730;&#x5740; <code>PhysicalAddress(0x8020b220)</code>&#xFF1B;&#x6CE8;&#x610F;&#x5230;&#x8FD9;&#x91CC;&#xFF0C;&#x4F60;&#x7684;&#x8F93;&#x51FA;&#x53EF;&#x80FD;&#x56E0;&#x4E3A;&#x5B9E;&#x73B0;&#x4E0A;&#x7684;&#x7EC6;&#x8282;&#x5E76;&#x4E0D;&#x5B8C;&#x5168;&#x4E00;&#x6837;&#x3002;
+<div id="page-footer" class="localized-footer"><hr><p><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"></p>
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<div id="gitalk-container"></div>
+<script>
+    var gitalk = new Gitalk({
+        clientID: "5084c46751a4b2f7cd4d",
+        clientSecret: "3904f62d33aef24f19480fedc836a48b31d532e9",
+        repo: "rCore-Tutorial-deploy",
+        owner: "rcore-os",
+        admin: [
+            "chyyuu",
+            "wangrunji0408",
+            "xy-plus",
+            "wyfcyx",
+            "LyricZhao",
+            "Tuyixiang"
+        ],
+        id: location.pathname,
+        distractionFreeMode: false
+    });
+    gitalk.render("gitalk-container");
+</script></div></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="part-1.html" class="navigation navigation-prev " aria-label="Previous page: 动态内存分配">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="part-3.html" class="navigation navigation-next " aria-label="Next page: 物理内存管理">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"物理内存探测","level":"3.3.3","depth":2,"next":{"title":"物理内存管理","level":"3.3.4","depth":2,"path":"docs/lab-2/guide/part-3.md","ref":"docs/lab-2/guide/part-3.md","articles":[]},"previous":{"title":"动态内存分配","level":"3.3.2","depth":2,"path":"docs/lab-2/guide/part-1.md","ref":"docs/lab-2/guide/part-1.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","chapter-fold","katex","alerts","emphasize","mermaid-gb3","codeblock-label","code","search-pro","click-reveal","expandable-chapters-interactive","localized-footer"],"pluginsConfig":{"chapter-fold":{},"emphasize":{},"codeblock-label":{},"search-pro":{},"search":{},"localized-footer":{"filename":"gitalk.html","hline":"true"},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"code":{"copyButtons":true},"hide-element":{},"katex":{},"fontsettings":{"theme":"white","family":"sans","size":1},"click-reveal":{},"highlight":{},"mermaid-gb3":{},"expandable-chapters-interactive":{},"alerts":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/lab-2/guide/part-2.md","mtime":"2020-07-11T01:00:33.732Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-07-11T12:25:02.597Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-chapter-fold/chapter-fold.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-alerts/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-click-reveal/click_reveal.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-expandable-chapters-interactive/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    <script src="../../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+
